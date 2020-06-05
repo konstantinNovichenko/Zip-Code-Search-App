@@ -44,16 +44,14 @@ class ZipCity extends Component{
                     <li>Population (estimated): {rec.EstimatedPopulation}</li>
                     <li>Total Wages: {rec.TotalWages}</li>
                 </div>
-            </div>            
-            
-            
+            </div>         
         </div>)       
         
         ReactDOM.render(
             output,
             document.getElementsByClassName("results-output")[0]
         );
-    }
+    }    
 
     
 
@@ -66,6 +64,12 @@ class ZipCity extends Component{
                         className="prompt-line" 
                         type="text" 
                         onChange={(event) => this.setState({ zip: event.target.value })}
+                        onKeyPress={(event) => {
+                            if(event.key === "Enter") 
+                            {
+                                this.componentDidMount();
+                            }
+                        }}
                         placeholder={this.state.zip}
                         />                     
                     </div>   
