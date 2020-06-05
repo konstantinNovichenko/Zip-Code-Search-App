@@ -3,6 +3,10 @@ import "./style.css"
 import axios from "axios";
 import ReactDOM from 'react-dom';
 
+/*
+    This class allows users to get a various data about the zip code
+    using ctp-zip-api
+*/
 class ZipCity extends Component{
     constructor(props)
     {
@@ -10,26 +14,24 @@ class ZipCity extends Component{
         this.state = {
             zip: "10016",
             records: [],            
-        }
-        this.printAllQueries = this.printAllQueries.bind(this);
+        }        
     }
     
     componentDidMount(){
         axios
         .get("http://ctp-zip-api.herokuapp.com/zip/" + this.state.zip)
-        .then((response) =>{
-            
-            this.setState({records:response.data});            
-            this.printAllQueries();
+        .then((response) =>{            
+            this.setState({records:response.data}); //store the fetched data   
+            this.printAllQueries(); //filter and print query results
         })
-        .catch((err) => console.log(err));        
-        
+        .catch((err) => console.log(err)); //send an error message to the console                
     }
 
     printAllQueries = () => {        
        
-        let output = [];
+        let output = []; //output collector
 
+        //map and select query results
         output = this.state.records.map(rec => 
         <div className="query-result">
             <h3>
@@ -47,19 +49,21 @@ class ZipCity extends Component{
             </div>         
         </div>)       
         
+        //render query results
         ReactDOM.render(
             output,
             document.getElementsByClassName("results-output")[0]
         );
-    }    
+    }       
 
-    
-
+    //main output render
     render(){
         return (            
             <div className="main">
                     <div className="prompt-line-box">
+
                         <h2>Zip Code:</h2>
+
                         <input 
                         className="prompt-line" 
                         type="text" 
@@ -71,7 +75,8 @@ class ZipCity extends Component{
                             }
                         }}
                         placeholder={this.state.zip}
-                        />                     
+                        />  
+
                     </div>   
 
                     <button
@@ -81,11 +86,11 @@ class ZipCity extends Component{
                         }}
                         >
                         Find
-                    </button>    
+                    </button>   
+
                     <div className="container">
                         <ul className="results-output"></ul> 
-                    </div>
-                    
+                    </div>                    
                 </div>                        
             
         );            
